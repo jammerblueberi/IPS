@@ -21,7 +21,7 @@
 
         /* --- RUNNING TEXT (CSS ANIMATION) --- */
         .marquee-container { width: 100%; background: var(--primary); color: white; padding: 12px 0; overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: scroll 20s linear infinite; font-weight: 700; padding-left: 100%; }
+        .marquee-content { display: inline-block; animation: scroll 25s linear infinite; font-weight: 700; padding-left: 100%; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
         /* --- SECTIONS --- */
@@ -29,28 +29,29 @@
         .active { display: flex; animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
-        .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; line-height: 1.6; }
+        h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; font-weight: 700; }
+        .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; line-height: 1.6; font-size: 1.1rem; }
 
         /* --- BUTTONS --- */
         .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
         .nav-btn {
-            padding: 20px 45px; border: none; border-radius: 50px; 
+            padding: 18px 40px; border: none; border-radius: 40px; 
             background: white; color: var(--primary); font-weight: 700;
             font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
         .nav-btn:hover { transform: scale(1.05); background: var(--primary); color: white; }
 
         /* --- GALLERY --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; width: 100%; max-width: 1400px; padding: 40px; }
-        .card { background: white; border-radius: 40px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.03); text-align: left; }
-        .img-zoom { width: 100%; height: 240px; overflow: hidden; cursor: zoom-in; }
-        .img-zoom img { width: 100%; height: 100%; object-fit: cover; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 1400px; padding: 30px; }
+        .card { background: white; border-radius: 35px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: left; }
+        .img-zoom { width: 100%; height: 230px; overflow: hidden; cursor: zoom-in; }
+        .img-zoom img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .img-zoom img:hover { transform: scale(1.1); }
         .card-body { padding: 25px; }
         .date-tag { font-size: 0.75rem; color: #999; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; font-weight: 600; }
 
-        #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: none; justify-content: center; align-items: center; }
+        /* --- ZOOM MODAL --- */
+        #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: none; justify-content: center; align-items: center; cursor: zoom-out; }
         #zoom-modal img { max-width: 90%; max-height: 90%; border-radius: 10px; }
 
         #music-btn { position: fixed; bottom: 25px; left: 25px; z-index: 1000; background: white; padding: 12px 22px; border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--primary); }
@@ -58,14 +59,14 @@
 </head>
 <body>
 
-    <audio id="bgm" loop><source src="pasilyo.mp3" type="audio/mpeg"></audio>
+    <audio id="bgm" loop><source src="BGM3.mp3" type="audio/mpeg"></audio>
     <div id="music-btn" onclick="toggleMusic()">🎵 Musik: Aktif</div>
 
     <div id="zoom-modal" onclick="this.style.display='none'"><img id="modal-img" src=""></div>
 
     <section id="step-1" class="section active">
         <h1>IPS Interastral Archive</h1>
-        <p class="hsr-quote">"The universe is a grand experiment, and we are but observers of its history."</p>
+        <div class="hsr-quote">"The universe is a grand experiment, and we are but observers of its history."</div>
         <div class="btn-grid">
             <button class="nav-btn" onclick="chooseMapel('Sejarah', 'theme-sejarah', 'Everything in this world is preordained by the Hunt.', 'Menganalisis sejarah peradaban Xianzhou...')">🚩 Sejarah</button>
             <button class="nav-btn" onclick="chooseMapel('Ekonomi', 'theme-ekonomi', 'All for the Amber Lord! Managing the galaxy\'s wealth.', 'Menghitung aset korporat IPC...')">💎 Ekonomi</button>
@@ -76,7 +77,7 @@
 
     <section id="step-2" class="section">
         <h1 id="title-mapel">Subject</h1>
-        <p id="quote-mapel" class="hsr-quote"></p>
+        <div id="quote-mapel" class="hsr-quote"></div>
         <div class="btn-grid">
             <button class="nav-btn" onclick="setKelas('10')">Level 10</button>
             <button class="nav-btn" onclick="setKelas('11')">Level 11</button>
@@ -86,7 +87,7 @@
     </section>
 
     <section id="step-3" class="section">
-        <h1>Pilih Periode</h1>
+        <h1>Pilih Semester</h1>
         <div class="btn-grid">
             <button class="nav-btn" onclick="render('1')">Semester 1</button>
             <button class="nav-btn" onclick="render('2')">Semester 2</button>
@@ -96,7 +97,7 @@
 
     <section id="step-4" class="section" style="justify-content: flex-start;">
         <div class="marquee-container">
-            <div class="marquee-content" id="marquee-text">Syncing data...</div>
+            <div class="marquee-content" id="marquee-text">Syncing data with Interastral Network...</div>
         </div>
         <h1 id="final-title" style="margin-top:50px;">Hasil Analisis</h1>
         <p onclick="goBack(3)" style="cursor:pointer; text-decoration:underline; font-weight:700; margin-bottom:20px;">← Sesuaikan Filter</p>
@@ -104,6 +105,7 @@
     </section>
 
     <script>
+        // Link TSV dari spreadsheet kamu
         const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxNhGk0y4qreJvO29urhClIZ3HaNUhtNHBD9BNbfys6T22uOFXQ6hamwPi26rf_aXYMiV8-b9Z7mKw/pub?output=tsv";
         let rawData = [];
         let state = { mapel: '', theme: '', quote: '', info: '' };
@@ -111,8 +113,8 @@
 
         function getToday() {
             const d = new Date();
-            const m = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            return `${d.getDate().toString().padStart(2,'0')} ${m[d.getMonth()]} ${d.getFullYear()}`;
+            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            return `${d.getDate().toString().padStart(2,'0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
         }
 
         async function init() {
@@ -121,10 +123,18 @@
                 const text = await res.text();
                 const lines = text.split('\n').slice(1);
                 rawData = lines.map(line => {
-                    const c = line.split('\t'); // Split by TAB for TSV
-                    return { kelas:c[0]?.trim(), mapel:c[1]?.trim(), smt:c[2]?.trim(), judul:c[3]?.trim(), link:c[4]?.trim(), desc:c[5]?.trim(), tgl:c[6]?.trim() };
+                    const c = line.split('\t'); // Split berdasarkan TAB untuk format TSV
+                    return { 
+                        kelas: c[0]?.trim(), 
+                        mapel: c[1]?.trim(), 
+                        smt: c[2]?.trim(), 
+                        judul: c[3]?.trim(), 
+                        link: c[4]?.trim(), 
+                        desc: c[5]?.trim(), 
+                        tgl: c[6]?.trim() 
+                    };
                 }).filter(x => x.judul);
-            } catch (e) { console.error("Archive Link Error"); }
+            } catch (e) { console.error("Database Error"); }
         }
 
         function chooseMapel(m, theme, quote, info) {
@@ -132,7 +142,12 @@
             document.body.className = theme;
             document.getElementById('title-mapel').innerText = m;
             document.getElementById('quote-mapel').innerText = '"' + quote + '"';
-            if(audio.paused) { audio.volume = 0.3; audio.play(); }
+            
+            // Putar BGM3.mp3 saat interaksi pertama
+            if(audio.paused) { 
+                audio.volume = 0.3; 
+                audio.play(); 
+            }
             nav(2);
         }
 
@@ -142,23 +157,23 @@
             document.getElementById('final-title').innerText = `${state.mapel} - Level ${state.kelas}`;
             const filtered = rawData.filter(d => d.mapel === state.mapel && d.kelas === state.kelas && d.smt === s);
             
-            // Set Custom Marquee per Tema
-            document.getElementById('marquee-text').innerText = `${state.info} | Total Spesimen Terdata: ${rawData.length} | "Knowledge is the only currency."`;
+            // Update Running Text sesuai Tema & Total Tugas
+            document.getElementById('marquee-text').innerText = `${state.info} | Total Arsip Terdata: ${rawData.length} Spesimen | Status: Sinkron | "Knowledge is the only currency."`;
             
             const grid = document.getElementById('display-grid');
-            grid.innerHTML = filtered.length ? '' : '<p>Data tidak ditemukan di sektor ini.</p>';
+            grid.innerHTML = filtered.length ? '' : '<p>Tidak ada data di sektor ini.</p>';
             
             filtered.forEach(item => {
-                const date = item.tgl || getToday();
+                const date = item.tgl && item.tgl !== "" ? item.tgl : getToday();
                 grid.innerHTML += `
                     <div class="card">
                         <div class="img-zoom" onclick="openZoom('${item.link}')">
-                            <img src="${item.link}" onerror="this.src='https://via.placeholder.com/400x250?text=No+Specimen'">
+                            <img src="${item.link}" onerror="this.src='https://via.placeholder.com/400x250?text=Tanpa+Spesimen'">
                         </div>
                         <div class="card-body">
                             <span style="font-size:0.7rem; font-weight:700; color:var(--primary)">SEMESTER ${item.smt}</span>
                             <div style="font-weight:700; font-size:1.4rem; margin:8px 0;">${item.judul}</div>
-                            <p style="font-size:0.85rem; opacity:0.7;">${item.desc}</p>
+                            <p style="font-size:0.85rem; opacity:0.7; line-height:1.5;">${item.desc}</p>
                             <div class="date-tag">📅 Log Date: ${date}</div>
                         </div>
                     </div>`;
