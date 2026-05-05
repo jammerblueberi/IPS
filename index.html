@@ -6,20 +6,16 @@
     <title>IPS | Interastral Archive</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #455a64; --accent: #b0bec5; --bg: #f0f2f5; --text: #263238;
-        }
+        :root { --primary: #455a64; --accent: #b0bec5; --bg: #f0f2f5; --text: #263238; }
+        .theme-sejarah { --primary: #b71c1c; --accent: #ffc107; --bg: #fff8e1; }
+        .theme-ekonomi { --primary: #0d47a1; --accent: #ffd600; --bg: #e3f2fd; }
+        .theme-geografi { --primary: #0277bd; --accent: #81d4fa; --bg: #e1f5fe; }
+        .theme-sosiologi { --primary: #4a148c; --accent: #ea80fc; --bg: #f3e5f5; }
 
-        /* --- THEME HSR --- */
-        .theme-sejarah { --primary: #b71c1c; --accent: #ffc107; --bg: #fff8e1; } /* Xianzhou */
-        .theme-ekonomi { --primary: #0d47a1; --accent: #ffd600; --bg: #e3f2fd; } /* IPC */
-        .theme-geografi { --primary: #0277bd; --accent: #81d4fa; --bg: #e1f5fe; } /* Belobog */
-        .theme-sosiologi { --primary: #4a148c; --accent: #ea80fc; --bg: #f3e5f5; } /* Penacony */
-
-        * { box-sizing: border-box; transition: all 0.4s ease; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
         body { margin: 0; font-family: 'Quicksand', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-        /* --- RUNNING TEXT (CSS ANIMATION) --- */
+        /* --- MARQUEE --- */
         .marquee-container { width: 100%; background: var(--primary); color: white; padding: 12px 0; overflow: hidden; white-space: nowrap; }
         .marquee-content { display: inline-block; animation: scroll 25s linear infinite; font-weight: 700; padding-left: 100%; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
@@ -29,30 +25,32 @@
         .active { display: flex; animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; font-weight: 700; }
-        .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; line-height: 1.6; font-size: 1.1rem; }
+        h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; }
+        .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; }
 
         /* --- BUTTONS --- */
         .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .nav-btn {
-            padding: 18px 40px; border: none; border-radius: 40px; 
-            background: white; color: var(--primary); font-weight: 700;
-            font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
+        .nav-btn { padding: 18px 40px; border: none; border-radius: 40px; background: white; color: var(--primary); font-weight: 700; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .nav-btn:hover { transform: scale(1.05); background: var(--primary); color: white; }
 
-        /* --- GALLERY --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 1400px; padding: 30px; }
-        .card { background: white; border-radius: 35px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: left; }
-        .img-zoom { width: 100%; height: 230px; overflow: hidden; cursor: zoom-in; }
-        .img-zoom img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .img-zoom img:hover { transform: scale(1.1); }
+        /* --- CAROUSEL SYSTEM --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1400px; padding: 30px; }
+        .card { background: white; border-radius: 35px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: left; position: relative; }
+        
+        .slider-container { position: relative; width: 100%; height: 250px; background: #eee; overflow: hidden; }
+        .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
+        .slider-wrapper img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; cursor: zoom-in; }
+
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .img-counter { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+
         .card-body { padding: 25px; }
         .date-tag { font-size: 0.75rem; color: #999; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; font-weight: 600; }
 
-        /* --- ZOOM MODAL --- */
         #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: none; justify-content: center; align-items: center; cursor: zoom-out; }
-        #zoom-modal img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+        #zoom-modal img { max-width: 95%; max-height: 95%; border-radius: 10px; }
 
         #music-btn { position: fixed; bottom: 25px; left: 25px; z-index: 1000; background: white; padding: 12px 22px; border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--primary); }
     </style>
@@ -61,7 +59,6 @@
 
     <audio id="bgm" loop><source src="BGM3.mp3" type="audio/mpeg"></audio>
     <div id="music-btn" onclick="toggleMusic()">🎵 Musik: Aktif</div>
-
     <div id="zoom-modal" onclick="this.style.display='none'"><img id="modal-img" src=""></div>
 
     <section id="step-1" class="section active">
@@ -105,17 +102,10 @@
     </section>
 
     <script>
-        // Link TSV dari spreadsheet kamu
         const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxNhGk0y4qreJvO29urhClIZ3HaNUhtNHBD9BNbfys6T22uOFXQ6hamwPi26rf_aXYMiV8-b9Z7mKw/pub?output=tsv";
         let rawData = [];
         let state = { mapel: '', theme: '', quote: '', info: '' };
         const audio = document.getElementById('bgm');
-
-        function getToday() {
-            const d = new Date();
-            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            return `${d.getDate().toString().padStart(2,'0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
-        }
 
         async function init() {
             try {
@@ -123,16 +113,8 @@
                 const text = await res.text();
                 const lines = text.split('\n').slice(1);
                 rawData = lines.map(line => {
-                    const c = line.split('\t'); // Split berdasarkan TAB untuk format TSV
-                    return { 
-                        kelas: c[0]?.trim(), 
-                        mapel: c[1]?.trim(), 
-                        smt: c[2]?.trim(), 
-                        judul: c[3]?.trim(), 
-                        link: c[4]?.trim(), 
-                        desc: c[5]?.trim(), 
-                        tgl: c[6]?.trim() 
-                    };
+                    const c = line.split('\t');
+                    return { kelas: c[0]?.trim(), mapel: c[1]?.trim(), smt: c[2]?.trim(), judul: c[3]?.trim(), link: c[4]?.trim(), desc: c[5]?.trim(), tgl: c[6]?.trim() };
                 }).filter(x => x.judul);
             } catch (e) { console.error("Database Error"); }
         }
@@ -142,12 +124,7 @@
             document.body.className = theme;
             document.getElementById('title-mapel').innerText = m;
             document.getElementById('quote-mapel').innerText = '"' + quote + '"';
-            
-            // Putar BGM3.mp3 saat interaksi pertama
-            if(audio.paused) { 
-                audio.volume = 0.3; 
-                audio.play(); 
-            }
+            if(audio.paused) { audio.volume = 0.3; audio.play(); }
             nav(2);
         }
 
@@ -156,29 +133,59 @@
         function render(s) {
             document.getElementById('final-title').innerText = `${state.mapel} - Level ${state.kelas}`;
             const filtered = rawData.filter(d => d.mapel === state.mapel && d.kelas === state.kelas && d.smt === s);
-            
-            // Update Running Text sesuai Tema & Total Tugas
-            document.getElementById('marquee-text').innerText = `${state.info} | Total Arsip Terdata: ${rawData.length} Spesimen | Status: Sinkron | "Knowledge is the only currency."`;
+            document.getElementById('marquee-text').innerText = `${state.info} | Total Arsip: ${rawData.length} | "Knowledge is the only currency."`;
             
             const grid = document.getElementById('display-grid');
             grid.innerHTML = filtered.length ? '' : '<p>Tidak ada data di sektor ini.</p>';
             
-            filtered.forEach(item => {
-                const date = item.tgl && item.tgl !== "" ? item.tgl : getToday();
+            filtered.forEach((item, cardIndex) => {
+                const images = item.link.split(',').map(img => img.trim()); // Pisahkan Link berdasarkan KOMA
+                const hasMultiple = images.length > 1;
+                
+                let sliderHtml = `<div class="slider-container">`;
+                if(hasMultiple) {
+                    sliderHtml += `
+                        <button class="slider-btn prev-btn" onclick="moveSlide(${cardIndex}, -1)">❮</button>
+                        <button class="slider-btn next-btn" onclick="moveSlide(${cardIndex}, 1)">❯</button>
+                        <div class="img-counter"><span id="count-${cardIndex}">1</span>/${images.length}</div>
+                    `;
+                }
+                
+                sliderHtml += `<div class="slider-wrapper" id="slider-${cardIndex}">`;
+                images.forEach(imgUrl => {
+                    sliderHtml += `<img src="${imgUrl}" onclick="openZoom('${imgUrl}')" onerror="this.src='https://via.placeholder.com/400x250?text=Error+Loading+Image'">`;
+                });
+                sliderHtml += `</div></div>`;
+
                 grid.innerHTML += `
                     <div class="card">
-                        <div class="img-zoom" onclick="openZoom('${item.link}')">
-                            <img src="${item.link}" onerror="this.src='https://via.placeholder.com/400x250?text=Tanpa+Spesimen'">
-                        </div>
+                        ${sliderHtml}
                         <div class="card-body">
                             <span style="font-size:0.7rem; font-weight:700; color:var(--primary)">SEMESTER ${item.smt}</span>
                             <div style="font-weight:700; font-size:1.4rem; margin:8px 0;">${item.judul}</div>
-                            <p style="font-size:0.85rem; opacity:0.7; line-height:1.5;">${item.desc}</p>
-                            <div class="date-tag">📅 Log Date: ${date}</div>
+                            <p style="font-size:0.85rem; opacity:0.7;">${item.desc}</p>
+                            <div class="date-tag">📅 Log Date: ${item.tgl || 'N/A'}</div>
                         </div>
                     </div>`;
             });
             nav(4);
+        }
+
+        // Fungsi kontrol Slider
+        let currentSlides = {};
+        function moveSlide(cardIndex, direction) {
+            const wrapper = document.getElementById(`slider-${cardIndex}`);
+            const totalImages = wrapper.querySelectorAll('img').length;
+            
+            if (!currentSlides[cardIndex]) currentSlides[cardIndex] = 0;
+            
+            currentSlides[cardIndex] += direction;
+            
+            if (currentSlides[cardIndex] >= totalImages) currentSlides[cardIndex] = 0;
+            if (currentSlides[cardIndex] < 0) currentSlides[cardIndex] = totalImages - 1;
+            
+            wrapper.style.transform = `translateX(-${currentSlides[cardIndex] * 100}%)`;
+            document.getElementById(`count-${cardIndex}`).innerText = currentSlides[cardIndex] + 1;
         }
 
         function nav(step) {
