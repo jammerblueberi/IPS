@@ -28,40 +28,36 @@
         h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; font-weight: 700; }
         .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; }
 
-        /* --- NAV BUTTONS --- */
+        /* --- BUTTONS --- */
         .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
         .nav-btn { padding: 18px 40px; border: none; border-radius: 40px; background: white; color: var(--primary); font-weight: 700; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .nav-btn:hover { transform: scale(1.05); background: var(--primary); color: white; }
 
-        /* --- CARD & SLIDER --- */
+        /* --- CAROUSEL & CARD --- */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1400px; padding: 30px; }
         .card { background: white; border-radius: 35px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: left; position: relative; }
+        
         .slider-container { position: relative; width: 100%; height: 250px; background: #eee; overflow: hidden; }
         .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
         .slider-wrapper img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; cursor: zoom-in; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 10; font-weight: bold; }
-        .prev-btn { left: 10px; } .next-btn { right: 10px; }
+
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
         .img-counter { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
-        
+
         .card-body { padding: 25px; }
-        .date-tag { font-size: 0.75rem; color: #999; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; font-weight: 600; margin-bottom: 15px; }
+        .date-tag { font-size: 0.75rem; color: #999; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; font-weight: 600; }
 
-        /* --- COMMENT TRIGGER --- */
-        .comment-trigger { background: var(--bg); color: var(--primary); border: 2px solid var(--primary); padding: 10px; width: 100%; border-radius: 15px; cursor: pointer; font-weight: 700; font-size: 0.8rem; }
-        .comment-trigger:hover { background: var(--primary); color: white; }
+        /* --- FLOATING FEEDBACK --- */
+        .fab-feedback { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 9999; border: 3px solid white; }
+        .fb-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 10000; padding: 20px; }
+        .fb-box { background: white; padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; }
+        .fb-box input, .fb-box textarea { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-family: inherit; outline: none; }
 
-        /* --- MODAL KOMEN --- */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 30px; padding: 30px; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; font-weight: bold; }
-        
-        .comm-input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; font-size: 0.9rem; }
-        .send-btn { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: 700; }
-        .send-btn:disabled { background: #ccc; cursor: not-allowed; }
-
+        /* --- MODALS --- */
         #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; cursor: zoom-out; }
         #zoom-modal img { max-width: 95%; max-height: 95%; border-radius: 10px; }
-
         #music-btn { position: fixed; bottom: 25px; left: 25px; z-index: 1000; background: white; padding: 12px 22px; border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--primary); }
     </style>
 </head>
@@ -72,17 +68,14 @@
     
     <div id="zoom-modal" onclick="this.style.display='none'"><img id="modal-img" src=""></div>
 
-    <div id="comment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeComment()">&times;</span>
-            <h2 id="modal-task-title" style="color:var(--primary); margin-top:0; font-size: 1.4rem;">Kirim Masukan</h2>
-            <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 20px;">Masukanmu akan disimpan langsung di database IPS.</p>
-            
-            <input type="text" id="comm-name" class="comm-input" placeholder="Siapa namamu?">
-            <textarea id="comm-text" class="comm-input" style="height: 100px; resize: none;" placeholder="Tulis komentar atau apa yang kurang..."></textarea>
-            
-            <button id="send-btn" class="send-btn" onclick="submitToSheets()">Kirim ke Database</button>
-            <p id="status-msg" style="display:none; color:green; font-weight:700; margin-top:15px; font-size: 0.9rem; text-align: center;">✅ Berhasil dikirim ke Trailblazer!</p>
+    <div id="fb-modal" class="fb-modal">
+        <div class="fb-box">
+            <h3 style="margin:0; color:var(--primary)">Lapor Tugas Kurang</h3>
+            <p style="font-size:0.8rem; opacity:0.6">Bantu Trailblazer melengkapi arsip ini!</p>
+            <input type="text" id="fb-nama" placeholder="Nama Kamu">
+            <textarea id="fb-pesan" rows="4" placeholder="Contoh: Bang, Sejarah Level 10 Smt 1 kurang foto catatan hal 2."></textarea>
+            <button id="fb-btn-kirim" onclick="sendFeedback()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:12px; font-weight:700; cursor:pointer;">Kirim Laporan</button>
+            <button onclick="toggleFB(false)" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:#999;">Batal</button>
         </div>
     </div>
 
@@ -126,11 +119,12 @@
         <div class="grid" id="display-grid"></div>
     </section>
 
+    <div class="fab-feedback" onclick="toggleFB(true)">💬</div>
+
     <script>
         const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxNhGk0y4qreJvO29urhClIZ3HaNUhtNHBD9BNbfys6T22uOFXQ6hamwPi26rf_aXYMiV8-b9Z7mKw/pub?output=tsv";
         let rawData = [];
-        let state = { mapel: '', theme: '', quote: '', info: '', kelas: '' };
-        let currentTaskTitle = "";
+        let state = { mapel: '', theme: '', quote: '', info: '' };
         const audio = document.getElementById('bgm');
 
         function getToday() {
@@ -194,66 +188,59 @@
                             <div style="font-weight:700; font-size:1.3rem; margin:8px 0;">${item.judul}</div>
                             <p style="font-size:0.85rem; opacity:0.7;">${item.desc}</p>
                             <div class="date-tag">📅 Diarsipkan: ${dateText}</div>
-                            <button class="comment-trigger" onclick="openComment('${item.judul.replace(/'/g, "\\'")}')">💬 Beri Masukan / Komentar</button>
                         </div>
                     </div>`;
             });
             nav(4);
         }
 
-        /* --- SLIDER & ZOOM --- */
-        let currentSlides = {};
-        function moveSlide(cardIndex, direction) {
-            const wrapper = document.getElementById(`slider-${cardIndex}`);
-            const totalImages = wrapper.querySelectorAll('img').length;
-            if (!currentSlides[cardIndex]) currentSlides[cardIndex] = 0;
-            currentSlides[cardIndex] += direction;
-            if (currentSlides[cardIndex] >= totalImages) currentSlides[cardIndex] = 0;
-            if (currentSlides[cardIndex] < 0) currentSlides[cardIndex] = totalImages - 1;
-            wrapper.style.transform = `translateX(-${currentSlides[cardIndex] * 100}%)`;
-            document.getElementById(`count-${cardIndex}`).innerText = currentSlides[cardIndex] + 1;
-        }
-        function openZoom(s) { document.getElementById('modal-img').src = s; document.getElementById('zoom-modal').style.display = 'flex'; }
-
-        /* --- GOOGLE FORM SUBMIT --- */
-        function openComment(title) {
-            currentTaskTitle = title;
-            document.getElementById('modal-task-title').innerText = "Diskusi: " + title;
-            document.getElementById('comment-modal').style.display = 'flex';
-            document.getElementById('status-msg').style.display = 'none';
-            document.getElementById('send-btn').style.display = 'block';
-            document.getElementById('send-btn').disabled = false;
+        /* --- CAROUSEL LOGIC --- */
+        let curSlide = {};
+        function moveSlide(idx, dir) {
+            const wrap = document.getElementById(`slider-${idx}`);
+            const imgs = wrap.querySelectorAll('img').length;
+            if (!curSlide[idx]) curSlide[idx] = 0;
+            curSlide[idx] += dir;
+            if (curSlide[idx] >= imgs) curSlide[idx] = 0;
+            if (curSlide[idx] < 0) curSlide[idx] = imgs - 1;
+            wrap.style.transform = `translateX(-${curSlide[idx] * 100}%)`;
+            document.getElementById(`count-${idx}`).innerText = curSlide[idx] + 1;
         }
 
-        async function submitToSheets() {
-            const name = document.getElementById('comm-name').value;
-            const msg = document.getElementById('comm-text').value;
-            const btn = document.getElementById('send-btn');
-            if(!name || !msg) return alert("Siapa namamu dan apa komentarnya?");
+        /* --- FEEDBACK LOGIC --- */
+        function toggleFB(s) { document.getElementById('fb-modal').style.display = s ? 'flex' : 'none'; }
+        
+        function sendFeedback() {
+            const name = document.getElementById('fb-nama').value;
+            const msg = document.getElementById('fb-pesan').value;
+            const btn = document.getElementById('fb-btn-kirim');
+            if(!name || !msg) return alert("Isi nama dan pesan dulu!");
 
-            btn.innerText = "Mengirim...";
-            btn.disabled = true;
+            btn.innerText = "Mengirim..."; btn.disabled = true;
 
-            // URL Google Form dari kamu
-            const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSdJU3i6c28fjdNHwcMJV1sFgckj1KzLzi1busu14Tc9_zRV2Q/formResponse";
-            const fullURL = `${formURL}?usp=pp_url&entry.1593598544=${encodeURIComponent(name)}&entry.713698665=${encodeURIComponent(msg)}&entry.326547258=${encodeURIComponent(currentTaskTitle)}&submit=Submit`;
+            // GANTI INI DENGAN ID FORM KAMU
+            const fID = "ID_GOOGLE_FORM_KAMU"; 
+            const eNama = "entry.111111"; 
+            const ePesan = "entry.222222"; 
 
-            fetch(fullURL, { mode: 'no-cors' }).then(() => {
-                document.getElementById('status-msg').style.display = 'block';
-                btn.style.display = 'none';
-                document.getElementById('comm-name').value = "";
-                document.getElementById('comm-text').value = "";
-                setTimeout(closeComment, 2000); // Tutup otomatis setelah 2 detik
-            }).catch(() => alert("Koneksi gagal!"));
+            const url = `https://docs.google.com/forms/d/e/${fID}/formResponse?${eNama}=${encodeURIComponent(name)}&${ePesan}=${encodeURIComponent(msg)}&submit=Submit`;
+
+            fetch(url, { mode: 'no-cors' }).then(() => {
+                alert("Laporan terkirim!");
+                toggleFB(false);
+                document.getElementById('fb-nama').value = "";
+                document.getElementById('fb-pesan').value = "";
+                btn.innerText = "Kirim Laporan"; btn.disabled = false;
+            });
         }
 
-        function closeComment() { document.getElementById('comment-modal').style.display = 'none'; }
-        function nav(step) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('step-' + step).classList.add('active');
+        function nav(s) {
+            document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
+            document.getElementById('step-' + s).classList.add('active');
             window.scrollTo(0,0);
         }
-        function goBack(to) { if(to === 1) document.body.className = ''; nav(to); }
+        function goBack(t) { if(t === 1) document.body.className = ''; nav(t); }
+        function openZoom(s) { document.getElementById('modal-img').src = s; document.getElementById('zoom-modal').style.display = 'flex'; }
         function toggleMusic() { audio.muted = !audio.muted; document.getElementById('music-btn').innerText = audio.muted ? "🎵 Musik: Senyap" : "🎵 Musik: Aktif"; }
 
         window.onload = init;
