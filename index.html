@@ -28,7 +28,7 @@
         h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; font-weight: 700; }
         .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; }
 
-        /* --- BUTTONS --- */
+        /* --- NAVIGATION BUTTONS --- */
         .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
         .nav-btn { padding: 18px 40px; border: none; border-radius: 40px; background: white; color: var(--primary); font-weight: 700; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .nav-btn:hover { transform: scale(1.05); background: var(--primary); color: white; }
@@ -49,13 +49,25 @@
         .card-body { padding: 25px; }
         .date-tag { font-size: 0.75rem; color: #999; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; font-weight: 600; }
 
-        /* --- FLOATING FEEDBACK --- */
-        .fab-feedback { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 9999; border: 3px solid white; }
-        .fb-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 10000; padding: 20px; }
-        .fb-box { background: white; padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; }
+        /* --- FLOATING FEEDBACK (BULATAN KOMENTAR) --- */
+        .fab-feedback { 
+            position: fixed; bottom: 25px; right: 25px; 
+            width: 100px; height: 100px; 
+            background: var(--primary); color: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 0.75rem; font-weight: 800; text-align: center;
+            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            z-index: 9999; border: 3px solid white;
+            text-transform: uppercase; line-height: 1.2; transition: 0.3s;
+        }
+        .fab-feedback:hover { transform: scale(1.1); background: var(--text); }
+
+        .fb-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 10000; padding: 20px; }
+        .fb-box { background: white; padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; animation: zoomIn 0.3s ease; }
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .fb-box input, .fb-box textarea { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-family: inherit; outline: none; }
 
-        /* --- MODALS --- */
+        /* --- ZOOM MODAL --- */
         #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; cursor: zoom-out; }
         #zoom-modal img { max-width: 95%; max-height: 95%; border-radius: 10px; }
         #music-btn { position: fixed; bottom: 25px; left: 25px; z-index: 1000; background: white; padding: 12px 22px; border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--primary); }
@@ -71,11 +83,11 @@
     <div id="fb-modal" class="fb-modal">
         <div class="fb-box">
             <h3 style="margin:0; color:var(--primary)">Lapor Tugas Kurang</h3>
-            <p style="font-size:0.8rem; opacity:0.6">Bantu Trailblazer melengkapi arsip ini!</p>
+            <p style="font-size:0.8rem; opacity:0.6; margin-bottom:15px;">Bantu Trailblazer melengkapi arsip ini!</p>
             <input type="text" id="fb-nama" placeholder="Nama Kamu">
-            <textarea id="fb-pesan" rows="4" placeholder="Contoh: Bang, Sejarah Level 10 Smt 1 kurang foto catatan hal 2."></textarea>
-            <button id="fb-btn-kirim" onclick="sendFeedback()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:12px; font-weight:700; cursor:pointer;">Kirim Laporan</button>
-            <button onclick="toggleFB(false)" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:#999;">Batal</button>
+            <textarea id="fb-pesan" rows="4" placeholder="Contoh: Bang, Ekonomi Smt 2 belum lengkap fotonya."></textarea>
+            <button id="fb-btn-kirim" onclick="sendFeedback()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:12px; font-weight:700; cursor:pointer; margin-top:10px;">Kirim Laporan</button>
+            <button onclick="toggleFB(false)" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:#999; font-weight:600;">Batal</button>
         </div>
     </div>
 
@@ -119,7 +131,9 @@
         <div class="grid" id="display-grid"></div>
     </section>
 
-    <div class="fab-feedback" onclick="toggleFB(true)">💬</div>
+    <div class="fab-feedback" onclick="toggleFB(true)">
+        KOMENTAR<br>ARSIP
+    </div>
 
     <script>
         const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxNhGk0y4qreJvO29urhClIZ3HaNUhtNHBD9BNbfys6T22uOFXQ6hamwPi26rf_aXYMiV8-b9Z7mKw/pub?output=tsv";
@@ -194,7 +208,7 @@
             nav(4);
         }
 
-        /* --- CAROUSEL LOGIC --- */
+        /* --- SLIDER LOGIC --- */
         let curSlide = {};
         function moveSlide(idx, dir) {
             const wrap = document.getElementById(`slider-${idx}`);
@@ -207,30 +221,34 @@
             document.getElementById(`count-${idx}`).innerText = curSlide[idx] + 1;
         }
 
-        /* --- FEEDBACK LOGIC --- */
+        /* --- FEEDBACK LOGIC (GOOGLE FORM) --- */
         function toggleFB(s) { document.getElementById('fb-modal').style.display = s ? 'flex' : 'none'; }
         
         function sendFeedback() {
             const name = document.getElementById('fb-nama').value;
             const msg = document.getElementById('fb-pesan').value;
             const btn = document.getElementById('fb-btn-kirim');
-            if(!name || !msg) return alert("Isi nama dan pesan dulu!");
+            if(!name || !msg) return alert("Isi nama dan pesan dulu bos!");
 
             btn.innerText = "Mengirim..."; btn.disabled = true;
 
-            // GANTI INI DENGAN ID FORM KAMU
-            const fID = "ID_GOOGLE_FORM_KAMU"; 
-            const eNama = "entry.111111"; 
-            const ePesan = "entry.222222"; 
+            // DATA SESUAI LINK PRE-FILLED KAMU
+            const fID = "1FAIpQLSdJU3i6c28fjdNHwcMJV1sFgckj1KzLzi1busu14Tc9_zRV2Q"; 
+            const eNama = "entry.1593598544"; 
+            const ePesan = "entry.713698665"; 
+            const eExtra = "entry.326547258";
 
-            const url = `https://docs.google.com/forms/d/e/${fID}/formResponse?${eNama}=${encodeURIComponent(name)}&${ePesan}=${encodeURIComponent(msg)}&submit=Submit`;
+            const url = `https://docs.google.com/forms/d/e/${fID}/formResponse?${eNama}=${encodeURIComponent(name)}&${ePesan}=${encodeURIComponent(msg)}&${eExtra}=Laporan+Umum&submit=Submit`;
 
             fetch(url, { mode: 'no-cors' }).then(() => {
-                alert("Laporan terkirim!");
+                alert("Laporan berhasil dikirim!");
                 toggleFB(false);
                 document.getElementById('fb-nama').value = "";
                 document.getElementById('fb-pesan').value = "";
                 btn.innerText = "Kirim Laporan"; btn.disabled = false;
+            }).catch(() => {
+                alert("Terjadi kesalahan jalur interastral!");
+                btn.disabled = false;
             });
         }
 
