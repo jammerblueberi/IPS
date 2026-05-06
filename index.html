@@ -3,114 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPS | Interastral Archive</title>
+    <title>IPA | Archive System</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #455a64; --accent: #b0bec5; --bg: #f0f2f5; --text: #263238; }
-        .theme-sejarah { --primary: #b71c1c; --accent: #ffc107; --bg: #fff8e1; }
-        .theme-ekonomi { --primary: #0d47a1; --accent: #ffd600; --bg: #e3f2fd; }
-        .theme-geografi { --primary: #0277bd; --accent: #81d4fa; --bg: #e1f5fe; }
-        .theme-sosiologi { --primary: #4a148c; --accent: #ea80fc; --bg: #f3e5f5; }
+        :root { 
+            --primary: #7e57c2; 
+            --accent: #26a69a; 
+            --bg: #fdfbff; 
+            --text: #2c3e50; 
+        }
 
         * { box-sizing: border-box; transition: all 0.3s ease; }
-        body { margin: 0; font-family: 'Quicksand', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        body { 
+            margin: 0; 
+            font-family: 'Quicksand', sans-serif; 
+            background: linear-gradient(135deg, #f3e5f5 0%, #e0f2f1 100%); 
+            color: var(--text); 
+            min-height: 100vh;
+        }
 
         /* --- MARQUEE --- */
-        .marquee-container { width: 100%; background: var(--primary); color: white; padding: 12px 0; overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: scroll 25s linear infinite; font-weight: 700; padding-left: 100%; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        .marquee-wrapper { width: 100%; background: rgba(126, 87, 194, 0.85); color: white; padding: 10px 0; overflow: hidden; }
+        .marquee-text { display: inline-block; white-space: nowrap; animation: scroll-text 25s linear infinite; font-weight: 600; }
+        @keyframes scroll-text { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-        /* --- SECTIONS --- */
-        .section { min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }
-        .active { display: flex; animation: fadeIn 0.5s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- LAYOUT --- */
+        .section { min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        .active { display: flex; animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; font-weight: 700; }
-        .hsr-quote { font-style: italic; opacity: 0.8; max-width: 650px; margin-bottom: 40px; }
-
-        /* --- NAVIGATION BUTTONS --- */
         .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .nav-btn { padding: 18px 40px; border: none; border-radius: 40px; background: white; color: var(--primary); font-weight: 700; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .nav-btn:hover { transform: scale(1.05); background: var(--primary); color: white; }
+        .nav-btn { padding: 16px 32px; border: 2px solid var(--accent); border-radius: 16px; background: white; color: var(--text); font-weight: 700; cursor: pointer; }
+        .nav-btn:hover { background: var(--accent); color: white; transform: translateY(-3px); }
 
-        /* --- CAROUSEL & CARD --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1400px; padding: 30px; }
-        .card { background: white; border-radius: 35px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: left; position: relative; }
-        
-        .slider-container { position: relative; width: 100%; height: 250px; background: #eee; overflow: hidden; }
-        .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
+        /* --- CARDS & SLIDER --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; }
+        .card { background: rgba(255, 255, 255, 0.8); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4); }
+        .slider-container { position: relative; width: 100%; height: 230px; overflow: hidden; background: #f0f0f0; }
+        .slider-wrapper { display: flex; transition: transform 0.5s ease; height: 100%; }
         .slider-wrapper img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; cursor: zoom-in; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5; }
+        .img-counter { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; }
 
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
-        .img-counter { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+        .card-body { padding: 20px; text-align: left; }
+        .card-body b { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 5px; }
+        .upload-date { font-size: 0.75rem; color: #888; margin-bottom: 10px; display: block; font-weight: 600; }
 
-        .card-body { padding: 25px; }
-        .date-tag { font-size: 0.75rem; color: #999; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; font-weight: 600; }
+        /* --- PDF BUTTON --- */
+        .btn-pdf { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 15px; background: #ef5350; color: white !important; text-decoration: none; border-radius: 10px; font-size: 0.8rem; font-weight: 700; }
 
-        /* --- FLOATING FEEDBACK (BULATAN KOMENTAR) --- */
-        .fab-feedback { 
-            position: fixed; bottom: 25px; right: 25px; 
-            width: 100px; height: 100px; 
-            background: var(--primary); color: white; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 0.75rem; font-weight: 800; text-align: center;
-            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
-            z-index: 9999; border: 3px solid white;
-            text-transform: uppercase; line-height: 1.2; transition: 0.3s;
-        }
-        .fab-feedback:hover { transform: scale(1.1); background: var(--text); }
+        /* --- ZOOM OVERLAY --- */
+        #zoom-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 9999; cursor: zoom-out; }
+        #zoom-img { max-width: 95%; max-height: 95%; border-radius: 10px; }
 
-        .fb-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 10000; padding: 20px; }
-        .fb-box { background: white; padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; animation: zoomIn 0.3s ease; }
-        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .fb-box input, .fb-box textarea { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-family: inherit; outline: none; }
+        /* --- FAB AURA --- */
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: none; font-size: 24px; animation: blinking-aura 2s infinite; }
+        @keyframes blinking-aura { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(126, 87, 194, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(126, 87, 194, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(126, 87, 194, 0); } }
 
-        /* --- ZOOM MODAL --- */
-        #zoom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 20000; display: none; justify-content: center; align-items: center; cursor: zoom-out; }
-        #zoom-modal img { max-width: 95%; max-height: 95%; border-radius: 10px; }
-        #music-btn { position: fixed; bottom: 25px; left: 25px; z-index: 1000; background: white; padding: 12px 22px; border-radius: 50px; cursor: pointer; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--primary); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(6px); }
+        .modal-box { background: white; padding: 30px; border-radius: 28px; width: 90%; max-width: 400px; }
+        .modal-box input, .modal-box textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #eee; border-radius: 12px; font-family: inherit; }
     </style>
 </head>
 <body>
 
-    <audio id="bgm" loop><source src="BGM3.mp3" type="audio/mpeg"></audio>
-    <div id="music-btn" onclick="toggleMusic()">🎵 Musik: Aktif</div>
-    
-    <div id="zoom-modal" onclick="this.style.display='none'"><img id="modal-img" src=""></div>
+    <audio id="music-pasilyo" src="pasilyo.mp3" loop></audio>
 
-    <div id="fb-modal" class="fb-modal">
-        <div class="fb-box">
-            <h3 style="margin:0; color:var(--primary)">Lapor Tugas Kurang</h3>
-            <p style="font-size:0.8rem; opacity:0.6; margin-bottom:15px;">Bantu Trailblazer melengkapi arsip ini!</p>
-            <input type="text" id="fb-nama" placeholder="Nama Kamu">
-            <textarea id="fb-pesan" rows="4" placeholder="Contoh: Bang, Ekonomi Smt 2 belum lengkap fotonya."></textarea>
-            <button id="fb-btn-kirim" onclick="sendFeedback()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:12px; font-weight:700; cursor:pointer; margin-top:10px;">Kirim Laporan</button>
-            <button onclick="toggleFB(false)" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:#999; font-weight:600;">Batal</button>
-        </div>
+    <div id="zoom-overlay" onclick="closeZoom()"><img id="zoom-img" src=""></div>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-text" id="marquee">Mengakses pusat data IPA... Silakan pilih kategori di bawah.</div>
     </div>
 
     <section id="step-1" class="section active">
-        <h1>IPS Interastral Archive</h1>
-        <div class="hsr-quote">"The universe is a grand experiment, and we are but observers of its history."</div>
+        <h1>Arsip Penelitian IPA</h1>
         <div class="btn-grid">
-            <button class="nav-btn" onclick="chooseMapel('Sejarah', 'theme-sejarah', 'Everything in this world is preordained by the Hunt.', 'Menganalisis sejarah peradaban Xianzhou...')">🚩 Sejarah</button>
-            <button class="nav-btn" onclick="chooseMapel('Ekonomi', 'theme-ekonomi', 'All for the Amber Lord! Managing the galaxy\'s wealth.', 'Menghitung aset korporat IPC...')">💎 Ekonomi</button>
-            <button class="nav-btn" onclick="chooseMapel('Geografi', 'theme-geografi', 'In the name of Landau, we shall protect our frozen world.', 'Pemetaan wilayah salju Belobog...')">❄️ Geografi</button>
-            <button class="nav-btn" onclick="chooseMapel('Sosiologi', 'theme-sosiologi', 'Welcome to the Dreamscape, where every soul is family.', 'Mempelajari hubungan sosial Penacony...')">🎭 Sosiologi</button>
+            <button class="nav-btn" onclick="chooseMapel('Biologi')">🧬 Biologi</button>
+            <button class="nav-btn" onclick="chooseMapel('Fisika')">⚡ Fisika</button>
+            <button class="nav-btn" onclick="chooseMapel('Kimia')">🧪 Kimia</button>
         </div>
     </section>
 
     <section id="step-2" class="section">
-        <h1 id="title-mapel">Subject</h1>
-        <div id="quote-mapel" class="hsr-quote"></div>
+        <h1 id="header-mapel">Pilih Tingkatan</h1>
         <div class="btn-grid">
             <button class="nav-btn" onclick="setKelas('10')">Level 10</button>
             <button class="nav-btn" onclick="setKelas('11')">Level 11</button>
             <button class="nav-btn" onclick="setKelas('12')">Level 12</button>
         </div>
-        <p onclick="goBack(1)" style="margin-top:30px; cursor:pointer; text-decoration:underline; font-weight:700;">Ganti Planet</p>
+        <p onclick="location.reload()" style="margin-top:20px; cursor:pointer; opacity:0.5;">← Kembali</p>
     </section>
 
     <section id="step-3" class="section">
@@ -119,147 +100,133 @@
             <button class="nav-btn" onclick="render('1')">Semester 1</button>
             <button class="nav-btn" onclick="render('2')">Semester 2</button>
         </div>
-        <p onclick="goBack(2)" style="margin-top:30px; cursor:pointer; text-decoration:underline; font-weight:700;">Kembali</p>
+        <p onclick="nav(2)" style="margin-top:20px; cursor:pointer; opacity:0.5;">← Kembali</p>
     </section>
 
     <section id="step-4" class="section" style="justify-content: flex-start;">
-        <div class="marquee-container">
-            <div class="marquee-content" id="marquee-text">Syncing data...</div>
-        </div>
-        <h1 id="final-title" style="margin-top:50px;">Hasil Analisis</h1>
-        <p onclick="goBack(3)" style="cursor:pointer; text-decoration:underline; font-weight:700; margin-bottom:20px;">← Sesuaikan Filter</p>
+        <h1 id="header-final" style="margin-top: 40px;">Arsip Data</h1>
         <div class="grid" id="display-grid"></div>
+        <button class="nav-btn" onclick="location.reload()" style="margin:40px 0;">Kembali ke Awal</button>
     </section>
 
-    <div class="fab-feedback" onclick="toggleFB(true)">
-        KOMENTAR<br>ARSIP
+    <button class="fab" onclick="toggleModal(true)">💬</button>
+
+    <div id="fb-modal" class="modal">
+        <div class="modal-box">
+            <h3>Saran & Masukan</h3>
+            <input type="text" id="nama" placeholder="Nama Lengkap">
+            <textarea id="pesan" rows="4" placeholder="Tulis masukan Anda..."></textarea>
+            <button onclick="sendFeedback()" id="btn-submit" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">Kirim</button>
+            <center><p onclick="toggleModal(false)" style="color:#999; cursor:pointer; margin-top:15px;">Tutup</p></center>
+        </div>
     </div>
 
     <script>
-        const tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxNhGk0y4qreJvO29urhClIZ3HaNUhtNHBD9BNbfys6T22uOFXQ6hamwPi26rf_aXYMiV8-b9Z7mKw/pub?output=tsv";
+        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv";
         let rawData = [];
-        let state = { mapel: '', theme: '', quote: '', info: '' };
-        const audio = document.getElementById('bgm');
-
-        function getToday() {
-            const d = new Date();
-            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            return `${d.getDate().toString().padStart(2,'0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
-        }
+        let state = { mapel: '', kelas: '' };
+        const myMusic = document.getElementById('music-pasilyo');
 
         async function init() {
             try {
-                const res = await fetch(tsvUrl);
+                const res = await fetch(csvUrl);
                 const text = await res.text();
-                const lines = text.split('\n').slice(1);
-                rawData = lines.map(line => {
-                    const c = line.split('\t');
-                    return { kelas: c[0]?.trim(), mapel: c[1]?.trim(), smt: c[2]?.trim(), judul: c[3]?.trim(), link: c[4]?.trim(), desc: c[5]?.trim(), tgl: c[6]?.trim() };
+                const rows = text.split('\n').slice(1);
+                rawData = rows.map(row => {
+                    const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return { 
+                        kelas: c[0]?.replace(/"/g, '').trim(), 
+                        mapel: c[1]?.replace(/"/g, '').trim(), 
+                        smt: c[2]?.replace(/"/g, '').trim(), 
+                        judul: c[3]?.replace(/"/g, '').trim(), 
+                        link: c[4]?.replace(/"/g, '').trim(), 
+                        desc: c[5]?.replace(/"/g, '').trim(),
+                        tgl: c[6]?.replace(/"/g, '').trim() // KOLOM G (TANGGAL)
+                    };
                 }).filter(x => x.judul);
-            } catch (e) { console.error("Database Error"); }
+                document.getElementById('marquee').innerText = "Koneksi stabil. Data siap diakses.";
+            } catch (e) { document.getElementById('marquee').innerText = "Database Offline."; }
         }
 
-        function chooseMapel(m, theme, quote, info) {
-            state.mapel = m; state.theme = theme; state.quote = quote; state.info = info;
-            document.body.className = theme;
-            document.getElementById('title-mapel').innerText = m;
-            document.getElementById('quote-mapel').innerText = '"' + quote + '"';
-            if(audio.paused) { audio.volume = 0.3; audio.play(); }
-            nav(2);
+        function chooseMapel(m) { state.mapel = m; document.getElementById('header-mapel').innerText = m; nav(2); }
+        
+        function setKelas(k) { 
+            state.kelas = k; 
+            myMusic.volume = 0.3;
+            myMusic.play().catch(() => {}); 
+            nav(3); 
         }
-
-        function setKelas(k) { state.kelas = k; nav(3); }
 
         function render(s) {
-            document.getElementById('final-title').innerText = `${state.mapel} - Level ${state.kelas}`;
-            const filtered = rawData.filter(d => d.mapel === state.mapel && d.kelas === state.kelas && d.smt === s);
-            document.getElementById('marquee-text').innerText = `${state.info} | Total Arsip: ${rawData.length} | "Knowledge is the only currency."`;
-            
             const grid = document.getElementById('display-grid');
-            grid.innerHTML = filtered.length ? '' : '<p>Tidak ada data di sektor ini.</p>';
+            const filtered = rawData.filter(d => d.mapel === state.mapel && d.kelas === state.kelas && d.smt === s);
+            grid.innerHTML = filtered.length ? '' : '<p>Data belum tersedia.</p>';
             
-            filtered.forEach((item, cardIndex) => {
-                const images = item.link.split(',').map(img => img.trim());
-                const dateText = (item.tgl && item.tgl !== "") ? item.tgl : getToday();
-                const hasMultiple = images.length > 1;
+            filtered.forEach((item, idx) => {
+                const imgs = item.link.split(',').map(l => l.trim());
                 
-                let sliderHtml = `<div class="slider-container">`;
-                if(hasMultiple) {
-                    sliderHtml += `
-                        <button class="slider-btn prev-btn" onclick="moveSlide(${cardIndex}, -1)">❮</button>
-                        <button class="slider-btn next-btn" onclick="moveSlide(${cardIndex}, 1)">❯</button>
-                        <div class="img-counter"><span id="count-${cardIndex}">1</span>/${images.length}</div>`;
+                // LOGIKA PDF
+                let description = item.desc;
+                const pdfRegex = /(https?:\/\/[^\s]+?\.pdf[^\s]*)/gi;
+                if (pdfRegex.test(description)) {
+                    description = description.replace(pdfRegex, (match) => {
+                        return `<br><a href="${match}" target="_blank" class="btn-pdf">📄 Lihat PDF</a>`;
+                    });
                 }
-                sliderHtml += `<div class="slider-wrapper" id="slider-${cardIndex}">`;
-                images.forEach(imgUrl => { sliderHtml += `<img src="${imgUrl}" onclick="openZoom('${imgUrl}')" onerror="this.src='https://via.placeholder.com/400x250?text=Error+Loading+Image'">`; });
+
+                // LOGIKA TANGGAL FIX: Jika di Sheets kosong, tampilkan "N/A" atau kosongkan
+                const showDate = item.tgl ? `Ditambahkan: ${item.tgl}` : "Tanggal: Unknown";
+
+                let sliderHtml = `<div class="slider-container">`;
+                if(imgs.length > 1) {
+                    sliderHtml += `<button class="slider-btn" style="left:5px" onclick="move(${idx},-1)">❮</button>
+                                   <button class="slider-btn" style="right:5px" onclick="move(${idx},1)">❯</button>
+                                   <div class="img-counter"><span id="c-${idx}">1</span>/${imgs.length}</div>`;
+                }
+                sliderHtml += `<div class="slider-wrapper" id="sw-${idx}">`;
+                imgs.forEach(url => { 
+                    sliderHtml += `<img src="${url}" onclick="openZoom('${url}')" onerror="this.src='https://via.placeholder.com/400x230?text=No+Preview'">`; 
+                });
                 sliderHtml += `</div></div>`;
 
                 grid.innerHTML += `
                     <div class="card">
                         ${sliderHtml}
                         <div class="card-body">
-                            <span style="font-size:0.7rem; font-weight:700; color:var(--primary)">SEMESTER ${item.smt}</span>
-                            <div style="font-weight:700; font-size:1.3rem; margin:8px 0;">${item.judul}</div>
-                            <p style="font-size:0.85rem; opacity:0.7;">${item.desc}</p>
-                            <div class="date-tag">📅 Diarsipkan: ${dateText}</div>
+                            <span class="upload-date">${showDate}</span>
+                            <b>${item.judul}</b>
+                            <p style="font-size:0.85rem; color:#555;">${description}</p>
                         </div>
                     </div>`;
             });
             nav(4);
         }
 
-        /* --- SLIDER LOGIC --- */
-        let curSlide = {};
-        function moveSlide(idx, dir) {
-            const wrap = document.getElementById(`slider-${idx}`);
-            const imgs = wrap.querySelectorAll('img').length;
-            if (!curSlide[idx]) curSlide[idx] = 0;
-            curSlide[idx] += dir;
-            if (curSlide[idx] >= imgs) curSlide[idx] = 0;
-            if (curSlide[idx] < 0) curSlide[idx] = imgs - 1;
-            wrap.style.transform = `translateX(-${curSlide[idx] * 100}%)`;
-            document.getElementById(`count-${idx}`).innerText = curSlide[idx] + 1;
+        let slidePos = {};
+        function move(idx, dir) {
+            const el = document.getElementById(`sw-${idx}`);
+            const total = el.querySelectorAll('img').length;
+            slidePos[idx] = ((slidePos[idx] || 0) + dir + total) % total;
+            el.style.transform = `translateX(-${slidePos[idx] * 100}%)`;
+            document.getElementById(`c-${idx}`).innerText = slidePos[idx] + 1;
         }
 
-        /* --- FEEDBACK LOGIC (GOOGLE FORM) --- */
-        function toggleFB(s) { document.getElementById('fb-modal').style.display = s ? 'flex' : 'none'; }
-        
-        function sendFeedback() {
-            const name = document.getElementById('fb-nama').value;
-            const msg = document.getElementById('fb-pesan').value;
-            const btn = document.getElementById('fb-btn-kirim');
-            if(!name || !msg) return alert("Isi nama dan pesan dulu bos!");
-
-            btn.innerText = "Mengirim..."; btn.disabled = true;
-
-            // DATA SESUAI LINK PRE-FILLED KAMU
-            const fID = "1FAIpQLSdJU3i6c28fjdNHwcMJV1sFgckj1KzLzi1busu14Tc9_zRV2Q"; 
-            const eNama = "entry.1593598544"; 
-            const ePesan = "entry.713698665"; 
-            const eExtra = "entry.326547258";
-
-            const url = `https://docs.google.com/forms/d/e/${fID}/formResponse?${eNama}=${encodeURIComponent(name)}&${ePesan}=${encodeURIComponent(msg)}&${eExtra}=Laporan+Umum&submit=Submit`;
-
-            fetch(url, { mode: 'no-cors' }).then(() => {
-                alert("Laporan berhasil dikirim!");
-                toggleFB(false);
-                document.getElementById('fb-nama').value = "";
-                document.getElementById('fb-pesan').value = "";
-                btn.innerText = "Kirim Laporan"; btn.disabled = false;
-            }).catch(() => {
-                alert("Terjadi kesalahan jalur interastral!");
-                btn.disabled = false;
-            });
-        }
-
-        function nav(s) {
+        function openZoom(src) { document.getElementById('zoom-img').src = src; document.getElementById('zoom-overlay').style.display = 'flex'; }
+        function closeZoom() { document.getElementById('zoom-overlay').style.display = 'none'; }
+        function toggleModal(s) { document.getElementById('fb-modal').style.display = s ? 'flex' : 'none'; }
+        function nav(s) { 
             document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
             document.getElementById('step-' + s).classList.add('active');
             window.scrollTo(0,0);
         }
-        function goBack(t) { if(t === 1) document.body.className = ''; nav(t); }
-        function openZoom(s) { document.getElementById('modal-img').src = s; document.getElementById('zoom-modal').style.display = 'flex'; }
-        function toggleMusic() { audio.muted = !audio.muted; document.getElementById('music-btn').innerText = audio.muted ? "🎵 Musik: Senyap" : "🎵 Musik: Aktif"; }
+
+        function sendFeedback() {
+            const name = document.getElementById('nama').value;
+            const msg = document.getElementById('pesan').value;
+            const fID = "1FAIpQLSdrFxIC2b4ov1k5mJye8CVpKN4IsVP5RI1XQv-sAsO2pJ_pFQ";
+            const url = `https://docs.google.com/forms/d/e/${fID}/formResponse?entry.1364991538=${encodeURIComponent(name)}&entry.1865279409=${encodeURIComponent(msg)}&submit=Submit`;
+            fetch(url, { mode: 'no-cors' }).then(() => { alert("Terkirim!"); toggleModal(false); });
+        }
 
         window.onload = init;
     </script>
