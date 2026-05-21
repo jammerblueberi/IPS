@@ -13,63 +13,67 @@
             --text: #263238; 
         }
 
-        /* TEMA PER MAPEL */
-        .theme-ekonomi { --primary: #b8860b; --accent: #1a237e; --bg: #fffde7; } /* IPC */
-        .theme-sejarah { --primary: #b71c1c; --accent: #00acc1; --bg: #fbe9e7; } /* Xianzhou */
-        .theme-geografi { --primary: #0277bd; --accent: #e1f5fe; --bg: #e3f2fd; } /* Belobog */
-        .theme-sosiologi { --primary: #4a148c; --accent: #f06292; --bg: #f3e5f5; } /* Penacony */
+        /* TEMA PER MAPEL (Sesuai Desain Kamu) */
+        .theme-ekonomi { --primary: #b8860b; --accent: #1a237e; --bg: #fffde7; } 
+        .theme-sejarah { --primary: #b71c1c; --accent: #00acc1; --bg: #fbe9e7; } 
+        .theme-geografi { --primary: #0277bd; --accent: #e1f5fe; --bg: #e3f2fd; } 
+        .theme-sosiologi { --primary: #4a148c; --accent: #f06292; --bg: #f3e5f5; } 
 
-        * { box-sizing: border-box; transition: all 0.4s ease; }
-        body { 
-            margin: 0; 
-            font-family: 'Quicksand', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            min-height: 100vh;
-        }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; font-family: 'Quicksand', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        .marquee-wrapper { width: 100%; background: var(--primary); color: white; padding: 12px 0; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* MARQUEE */
+        .marquee-wrapper { width: 100%; background: var(--primary); color: white; padding: 12px 0; overflow: hidden; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .marquee-text { display: inline-block; white-space: nowrap; animation: scroll-text 20s linear infinite; font-weight: 700; }
         @keyframes scroll-text { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-        .section { min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        /* SECTION CONTROL */
+        .section { min-height: 90vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; animation: fadeIn 0.6s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        /* BUTTONS (Sesuai Struktur Kamu) */
+        .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
         .nav-btn { 
             padding: 18px 35px; border: 2px solid var(--primary); border-radius: 20px; 
             background: white; color: var(--primary); font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-family: 'Quicksand', sans-serif;
         }
-        .nav-btn:hover { background: var(--primary); color: white; transform: scale(1.05); }
+        .nav-btn:hover { background: var(--primary); color: white; transform: translateY(-5px); }
 
-        /* CARDS */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; }
-        .card { background: rgba(255, 255, 255, 0.9); border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
-        .slider-container { position: relative; width: 100%; height: 230px; overflow: hidden; background: #ddd; }
-        .slider-wrapper { display: flex; transition: transform 0.5s ease; height: 100%; }
-        .slider-wrapper img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; cursor: zoom-in; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 5; }
+        /* CARDS GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; padding: 20px; }
+        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 100%; }
         
-        .card-body { padding: 20px; text-align: left; }
-        .card-body b { color: var(--primary); font-size: 1.2rem; display: block; margin-bottom: 8px; }
-        .date-label { font-size: 0.75rem; color: #777; font-weight: 600; display: block; margin-bottom: 10px; }
+        /* MEDIA CONTAINER (MIXED MEDIA) */
+        .media-container { width: 100%; height: 230px; background: #000; position: relative; overflow: hidden; }
+        .media-container iframe, .media-container video { width: 100%; height: 100%; border: none; }
+        
+        .slider-wrapper { display: flex; transition: transform 0.5s ease; height: 100%; }
+        .slider-wrapper .slide-item { min-width: 100%; height: 100%; flex-shrink: 0; position: relative; }
+        .slider-wrapper img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+        
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 10; font-weight: bold; color: var(--primary); }
 
-        .btn-pdf { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; padding: 10px 20px; background: #d32f2f; color: white !important; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 0.85rem; }
+        /* CARD BODY */
+        .card-body { padding: 20px; text-align: left; flex-grow: 1; }
+        .card-body b { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 8px; line-height: 1.2; }
+        .date-label { font-size: 0.75rem; color: #888; margin-bottom: 10px; display: block; font-weight: 600; }
 
-        /* BLINKING FAB */
-        .fab { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: 4px solid white; animation: aura 2s infinite; font-size: 24px; }
-        @keyframes aura { 0% { box-shadow: 0 0 0 0 rgba(0,0,0,0.4); } 70% { box-shadow: 0 0 0 20px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+        /* PDF & LINK BUTTONS */
+        .btn-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 10px 15px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 0.8rem; background: #eceff1; color: #455a64; }
+        .btn-pdf { background: #ef5350; color: white !important; }
 
+        /* FAB & OVERLAY */
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: 3px solid white; animation: aura 2s infinite; font-size: 24px; }
+        @keyframes aura { 0% { box-shadow: 0 0 0 0 rgba(0,0,0,0.4); } 70% { box-shadow: 0 0 0 15px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
         #zoom-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 9999; }
-        #zoom-img { max-width: 90%; max-height: 90%; border-radius: 15px; }
+        #zoom-img { max-width: 90%; max-height: 90%; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <audio id="bgm" src="BGM3.mp3" loop></audio>
-
     <div id="zoom-overlay" onclick="this.style.display='none'"><img id="zoom-img" src=""></div>
 
     <div class="marquee-wrapper">
@@ -77,7 +81,7 @@
     </div>
 
     <section id="step-1" class="section active">
-        <h1 id="main-title">Database Pusat IPS</h1>
+        <h1>Database Pusat IPS</h1>
         <div class="btn-grid">
             <button class="nav-btn" onclick="choose('Ekonomi', 'theme-ekonomi', 'Departemen Strategi Investasi (IPC)')">💰 Ekonomi</button>
             <button class="nav-btn" onclick="choose('Sejarah', 'theme-sejarah', 'Catatan Sejarah Semesta (Xianzhou)')">📜 Sejarah</button>
@@ -87,7 +91,7 @@
     </section>
 
     <section id="step-2" class="section">
-        <h1 id="sub-title">Pilih Tingkatan</h1>
+        <h1>Pilih Tingkatan</h1>
         <div class="btn-grid">
             <button class="nav-btn" onclick="setKelas('10')">Level 10</button>
             <button class="nav-btn" onclick="setKelas('11')">Level 11</button>
@@ -103,27 +107,49 @@
         </div>
     </section>
 
-    <section id="step-4" class="section" style="justify-content: flex-start;">
+    <section id="step-4" class="section" style="justify-content: flex-start; padding-top: 40px;">
         <h1 id="final-header">Arsip Terverifikasi</h1>
         <div class="grid" id="display-grid"></div>
-        <button class="nav-btn" onclick="location.reload()" style="margin:40px 0;">Kembali ke Index</button>
+        <button class="nav-btn" onclick="location.reload()" style="margin:50px 0;">Kembali ke Index</button>
     </section>
 
-    <div class="fab" onclick="alert('Form Saran Terhubung ke Database IPS')">💬</div>
+    <div class="fab" onclick="alert('Form Terhubung ke Database IPS')">💬</div>
 
     <script>
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv";
+        // URL CSV ANDA
+        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxNhGk0y4qreJvO29urhClIZ3HaNUhtNHBD9BNbfys6T22uOFXQ6hamwPi26rf_aXYMiV8-b9Z7mKw/pub?output=csv";
+        
         let rawData = [];
         let state = { mapel: '', kelas: '' };
 
         async function init() {
-            const res = await fetch(csvUrl);
-            const text = await res.text();
-            const rows = text.split('\n').slice(1);
-            rawData = rows.map(row => {
-                const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { k: c[0]?.replace(/"/g, '').trim(), m: c[1]?.replace(/"/g, '').trim(), s: c[2]?.replace(/"/g, '').trim(), j: c[3]?.replace(/"/g, '').trim(), l: c[4]?.replace(/"/g, '').trim(), d: c[5]?.replace(/"/g, '').trim(), t: c[6]?.replace(/"/g, '').trim() };
-            }).filter(x => x.j);
+            try {
+                const res = await fetch(csvUrl);
+                const text = await res.text();
+                // Parsing CSV agar koma di dalam teks tidak merusak kolom
+                const rows = text.split(/\r?\n/).slice(1);
+                rawData = rows.map(row => {
+                    const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return {
+                        k: c[0]?.replace(/"/g, '').trim(), 
+                        m: c[1]?.replace(/"/g, '').trim(), 
+                        s: c[2]?.replace(/"/g, '').trim(), 
+                        j: c[3]?.replace(/"/g, '').trim(), 
+                        l: c[4]?.replace(/"/g, '').trim(), 
+                        d: c[5]?.replace(/"/g, '').trim(), 
+                        t: c[6]?.replace(/"/g, '').trim()  
+                    };
+                }).filter(x => x.j);
+            } catch (err) { console.error("Data Load Error"); }
+        }
+
+        // Fungsi mengubah link Drive biasa menjadi link Embed/Preview
+        function fixDriveLink(url) {
+            if (url.includes('drive.google.com')) {
+                let id = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1]?.split('&')[0];
+                return `https://drive.google.com/file/d/${id}/preview`;
+            }
+            return url;
         }
 
         function choose(m, theme, marqueeTxt) {
@@ -136,8 +162,7 @@
         function setKelas(k) {
             state.kelas = k;
             const music = document.getElementById('bgm');
-            music.volume = 0.4;
-            music.play();
+            music.volume = 0.2; music.play().catch(() => {});
             nav(3);
         }
 
@@ -147,40 +172,63 @@
             grid.innerHTML = filtered.length ? '' : '<h3>Belum ada data di arsip ini.</h3>';
 
             filtered.forEach((item, idx) => {
-                const imgs = item.l.split(',').map(u => u.trim());
+                const links = item.l.split(',').map(u => u.trim());
+                
+                // MULTI-MEDIA CAROUSEL
+                let mediaHtml = `<div class="media-container"><div class="slider-wrapper" id="sw-${idx}">`;
+                
+                links.forEach(link => {
+                    mediaHtml += `<div class="slide-item">`;
+                    if (link.includes('drive.google.com')) {
+                        mediaHtml += `<iframe src="${fixDriveLink(link)}" allow="autoplay"></iframe>`;
+                    } else if (link.match(/\.(mp4|webm)$/i)) {
+                        mediaHtml += `<video controls src="${link}"></video>`;
+                    } else {
+                        mediaHtml += `<img src="${link}" onclick="zoom('${link}')" onerror="this.src='https://via.placeholder.com/400x230?text=No+Preview'">`;
+                    }
+                    mediaHtml += `</div>`;
+                });
+                
+                mediaHtml += `</div>`; // Close slider-wrapper
+                if(links.length > 1) {
+                    mediaHtml += `<button class="slider-btn" style="left:8px" onclick="move(${idx},-1)">❮</button>
+                                  <button class="slider-btn" style="right:8px" onclick="move(${idx},1)">❯</button>`;
+                }
+                mediaHtml += `</div>`; // Close media-container
+
+                // HANDLING DESKRIPSI & LINK PDF
                 let descText = item.d;
                 const pdfReg = /(https?:\/\/[^\s]+?\.pdf[^\s]*)/gi;
                 if (pdfReg.test(descText)) {
-                    descText = descText.replace(pdfReg, (match) => `<br><a href="${match}" target="_blank" class="btn-pdf">📄 DOWNLOAD DOKUMEN PDF</a>`);
+                    descText = descText.replace(pdfReg, (m) => `<br><a href="${m}" target="_blank" class="btn-link btn-pdf">📄 DOWNLOAD PDF</a>`);
                 }
 
-                let slider = `<div class="slider-container">`;
-                if(imgs.length > 1) {
-                    slider += `<button class="slider-btn" style="left:5px" onclick="move(${idx},-1)">❮</button>
-                               <button class="slider-btn" style="right:5px" onclick="move(${idx},1)">❯</button>`;
-                }
-                slider += `<div class="slider-wrapper" id="sw-${idx}">`;
-                imgs.forEach(img => { slider += `<img src="${img}" onclick="zoom('${img}')" onerror="this.src='https://via.placeholder.com/400x230?text=IPS+Preview'">`; });
-                slider += `</div></div>`;
-
-                grid.innerHTML += `<div class="card">${slider}<div class="card-body">
-                    <span class="date-label">Arsip: ${item.t || 'Permanent'}</span>
-                    <b>${item.j}</b><p style="font-size:0.85rem">${descText}</p>
-                </div></div>`;
+                grid.innerHTML += `
+                    <div class="card">
+                        ${mediaHtml}
+                        <div class="card-body">
+                            <span class="date-label">Arsip: ${item.t || 'Permanent'}</span>
+                            <b>${item.j}</b>
+                            <p style="font-size:0.85rem; line-height:1.4">${descText}</p>
+                        </div>
+                    </div>`;
             });
             nav(4);
         }
 
         function move(idx, dir) {
             const el = document.getElementById(`sw-${idx}`);
-            const total = el.querySelectorAll('img').length;
-            if(!window['pos'+idx]) window['pos'+idx] = 0;
-            window['pos'+idx] = (window['pos'+idx] + dir + total) % total;
+            const total = el.querySelectorAll('.slide-item').length;
+            window['pos'+idx] = ((window['pos'+idx] || 0) + dir + total) % total;
             el.style.transform = `translateX(-${window['pos'+idx] * 100}%)`;
         }
 
         function zoom(src) { document.getElementById('zoom-img').src = src; document.getElementById('zoom-overlay').style.display = 'flex'; }
-        function nav(s) { document.querySelectorAll('.section').forEach(x => x.classList.remove('active')); document.getElementById('step-' + s).classList.add('active'); window.scrollTo(0,0); }
+        function nav(s) { 
+            document.querySelectorAll('.section').forEach(x => x.classList.remove('active')); 
+            document.getElementById('step-' + s).classList.add('active'); 
+            window.scrollTo(0,0); 
+        }
 
         window.onload = init;
     </script>
