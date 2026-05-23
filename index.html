@@ -15,56 +15,49 @@
         * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         body { margin: 0; font-family: 'Quicksand', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        /* MARQUEE & HEADER */
+        /* MARQUEE */
         .marquee-wrapper { width: 100%; background: var(--primary); color: white; padding: 12px 0; overflow: hidden; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .marquee-text { display: inline-block; white-space: nowrap; animation: scroll-text 20s linear infinite; font-weight: 700; }
         @keyframes scroll-text { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
         /* SECTIONS */
         .section { min-height: 90vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        .active { display: flex; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .active { display: flex; animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* BUTTONS */
         .btn-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
-        .nav-btn { padding: 15px 30px; border: 2px solid var(--primary); border-radius: 15px; background: white; color: var(--primary); font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .nav-btn { padding: 15px 30px; border: 2px solid var(--primary); border-radius: 15px; background: white; color: var(--primary); font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); min-width: 150px; }
         .nav-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+        
+        /* BACK BUTTON SPECIFIC */
+        .back-btn { margin-top: 30px; padding: 10px 20px; border: none; background: transparent; color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: underline; font-size: 0.9rem; opacity: 0.7; }
+        .back-btn:hover { opacity: 1; }
 
-        /* CARDS & GRID */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; padding: 20px; margin-bottom: 80px; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 100%; border: 1px solid rgba(0,0,0,0.05); }
-        .card-body { padding: 20px; text-align: left; flex-grow: 1; }
-        .card-body b { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 5px; }
-
-        /* MEDIA & CAROUSEL */
+        /* CARDS & MEDIA (CAROUSEL) */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; padding: 20px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 100%; }
         .media-container { width: 100%; height: 230px; background: #000; position: relative; overflow: hidden; }
         .carousel-container { position: relative; width: 100%; height: 100%; }
         .carousel-item { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; cursor: zoom-in; }
         .carousel-item.active { opacity: 1; z-index: 1; }
         @media (min-width: 1024px) { .carousel-item:hover { transform: scale(1.08); } }
-
-        .caro-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; padding: 10px; cursor: pointer; z-index: 5; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; }
-        .caro-btn:hover { background: var(--primary); }
+        
+        .caro-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; z-index: 5; border-radius: 50%; }
         .prev { left: 10px; } .next { right: 10px; }
+        .caro-dots { position: absolute; bottom: 10px; width: 100%; display: flex; justify-content: center; gap: 5px; z-index: 5; }
+        .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.4); border-radius: 50%; }
+        .dot.active { background: white; width: 18px; border-radius: 10px; }
 
-        .caro-dots { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: center; gap: 4px; z-index: 5; }
-        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 50%; }
-        .dot.active { background: white; width: 15px; border-radius: 10px; }
-
-        /* LIGHTBOX ZOOM */
-        #zoom-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; backdrop-filter: blur(5px); }
-        #zoom-overlay img { max-width: 95%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.5); object-fit: contain; transform: scale(0.9); animation: zoomEffect 0.3s forwards; }
-        @keyframes zoomEffect { to { transform: scale(1); } }
-
-        /* FLOATING CONTROLS */
-        .mute-btn { position: fixed; bottom: 25px; left: 25px; width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .fab { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: 3px solid white; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        /* LIGHTBOX & FLOATING */
+        #zoom-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+        #zoom-overlay img { max-width: 95%; max-height: 90vh; border-radius: 10px; object-fit: contain; }
+        .mute-btn { position: fixed; bottom: 25px; left: 25px; width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: 2px solid white; }
+        .fab { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: 3px solid white; font-size: 24px; }
 
         /* MODAL */
-        #comment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
-        .comment-box { background: white; padding: 30px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; border: 4px solid var(--primary); }
-        .comment-box input, .comment-box textarea { width: 100%; margin-bottom: 12px; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-family: inherit; }
-        .submit-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; }
+        #comment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; }
+        .comment-box { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 4px solid var(--primary); }
     </style>
 </head>
 <body onclick="startAudioOnce()">
@@ -76,7 +69,7 @@
     </div>
 
     <div class="marquee-wrapper">
-        <div class="marquee-text" id="marquee">Memuat Database...</div>
+        <div class="marquee-text" id="marquee">Selamat Datang di Galaxy Archive...</div>
     </div>
 
     <section id="step-1" class="section active">
@@ -90,12 +83,13 @@
     </section>
 
     <section id="step-2" class="section">
-        <h1>Pilih Tingkatan</h1>
+        <h1 id="title-step-2">Pilih Tingkatan</h1>
         <div class="btn-grid">
             <button class="nav-btn" onclick="setKelas('10')">Level 10</button>
             <button class="nav-btn" onclick="setKelas('11')">Level 11</button>
             <button class="nav-btn" onclick="setKelas('12')">Level 12</button>
         </div>
+        <button class="back-btn" onclick="nav(1)">❮ Kembali ke Menu Mapel</button>
     </section>
 
     <section id="step-3" class="section">
@@ -104,12 +98,13 @@
             <button class="nav-btn" onclick="render('1')">Semester 1</button>
             <button class="nav-btn" onclick="render('2')">Semester 2</button>
         </div>
+        <button class="back-btn" onclick="nav(2)">❮ Kembali ke Pilih Level</button>
     </section>
 
     <section id="step-4" class="section" style="justify-content: flex-start; padding-top: 50px;">
         <h1 id="final-header">Arsip Terverifikasi</h1>
         <div class="grid" id="display-grid"></div>
-        <button class="nav-btn" onclick="location.reload()" style="margin-bottom: 50px;">Kembali ke Menu</button>
+        <button class="nav-btn" onclick="nav(3)" style="margin: 40px 0;">❮ Kembali ke Pilih Semester</button>
     </section>
 
     <div class="mute-btn" id="mute-toggle" onclick="toggleMute()">🔊</div>
@@ -118,11 +113,11 @@
     <div id="comment-modal">
         <div class="comment-box">
             <h3>Kirim Masukan</h3>
-            <p id="context-info" style="font-size:0.7rem; color:#888; margin-bottom:10px; font-weight:bold"></p>
-            <input type="text" id="comm-nama" placeholder="Nama Anda...">
-            <textarea id="comm-pesan" placeholder="Tulis masukan..." rows="4"></textarea>
-            <button class="submit-btn" onclick="sendComment()">Kirim</button>
-            <p onclick="toggleComment()" style="margin-top:10px; cursor:pointer; font-size:0.8rem; color:gray">Batal</p>
+            <p id="context-info" style="font-size:0.7rem; color:#888; margin-bottom:10px;"></p>
+            <input type="text" id="comm-nama" style="width:100%; padding:10px; margin-bottom:10px;" placeholder="Nama Anda...">
+            <textarea id="comm-pesan" style="width:100%; padding:10px; margin-bottom:10px;" placeholder="Tulis masukan..." rows="4"></textarea>
+            <button onclick="sendComment()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:700;">Kirim</button>
+            <p onclick="toggleComment()" style="margin-top:10px; cursor:pointer; color:gray; font-size:0.8rem;">Batal</p>
         </div>
     </div>
 
@@ -150,14 +145,15 @@
                     const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     return { k: c[0]?.replace(/"/g,''), m: c[1]?.replace(/"/g,''), s: c[2]?.replace(/"/g,''), j: c[3]?.replace(/"/g,''), l: c[4]?.replace(/"/g,''), d: c[5]?.replace(/"/g,''), t: c[6]?.replace(/"/g,'') };
                 }).filter(x => x.j);
-                document.getElementById('marquee').innerText = "Selamat Datang di Database IPS. Pilih sub-bidang studi.";
-            } catch (e) { console.error("Database Error"); }
+            } catch (e) { console.error("Database Load Failed"); }
         }
 
+        // FUNGSI AUDIO - HANYA JALAN SEKALI SAAT KLIK PERTAMA DI BODY
         function startAudioOnce() {
             if (!isAudioStarted) {
                 const bgm = document.getElementById('bgm');
-                bgm.volume = 0.2; bgm.play().catch(() => {});
+                bgm.volume = 0.2;
+                bgm.play().catch(() => {});
                 isAudioStarted = true;
             }
         }
@@ -169,18 +165,23 @@
         }
 
         function choose(m, theme, txt) {
-            state.mapel = m; document.body.className = theme;
+            state.mapel = m;
+            document.body.className = theme;
             document.getElementById('marquee').innerText = txt;
+            document.getElementById('title-step-2').innerText = "Level: " + m;
             nav(2);
         }
 
-        function setKelas(k) { state.kelas = k; nav(3); }
+        function setKelas(k) {
+            state.kelas = k;
+            nav(3);
+        }
 
         function render(s) {
             state.sem = s;
             const grid = document.getElementById('display-grid');
             const filtered = rawData.filter(x => x.m === state.mapel && x.k === state.kelas && x.s === state.sem);
-            grid.innerHTML = filtered.length ? '' : '<h3>Arsip belum tersedia.</h3>';
+            grid.innerHTML = filtered.length ? '' : '<h3>Arsip belum tersedia untuk semester ini.</h3>';
 
             filtered.forEach((item, cardIdx) => {
                 const links = item.l.split(',').map(l => l.trim());
@@ -189,7 +190,7 @@
                 if (links.length > 1) {
                     mediaHTML = `
                         <div class="carousel-container" id="caro-${cardIdx}">
-                            ${links.map((url, i) => `<img src="${url}" class="carousel-item ${i === 0 ? 'active' : ''}" onclick="openZoom('${url}')" data-idx="${i}">`).join('')}
+                            ${links.map((url, i) => `<img src="${url}" class="carousel-item ${i === 0 ? 'active' : ''}" onclick="openZoom('${url}')">`).join('')}
                             <button class="caro-btn prev" onclick="moveSlide(${cardIdx}, -1)">❮</button>
                             <button class="caro-btn next" onclick="moveSlide(${cardIdx}, 1)">❯</button>
                             <div class="caro-dots">${links.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('')}</div>
@@ -200,7 +201,7 @@
                         const id = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1];
                         mediaHTML = `<iframe src="https://drive.google.com/file/d/${id}/preview"></iframe>`;
                     } else if(url.match(/\.(mp4|webm)$/i)) {
-                        mediaHTML = `<video controls src="${url}"></video>`;
+                        mediaHTML = `<video controls src="${url}" style="width:100%; height:100%"></video>`;
                     } else {
                         mediaHTML = `<img src="${url}" class="carousel-item active" onclick="openZoom('${url}')">`;
                     }
@@ -227,9 +228,7 @@
 
             slides[currentSlides[cardIdx]].classList.remove('active');
             dots[currentSlides[cardIdx]].classList.remove('active');
-            
             currentSlides[cardIdx] = (currentSlides[cardIdx] + dir + slides.length) % slides.length;
-            
             slides[currentSlides[cardIdx]].classList.add('active');
             dots[currentSlides[cardIdx]].classList.add('active');
         }
@@ -247,19 +246,17 @@
 
         function toggleComment() {
             const m = document.getElementById('comment-modal');
-            document.getElementById('context-info').innerText = `${state.mapel} | Lvl ${state.kelas} | Sem ${state.sem}`;
+            document.getElementById('context-info').innerText = `${state.mapel} | Kelas ${state.kelas} | Sem ${state.sem}`;
             m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
 
         async function sendComment() {
             const n = document.getElementById('comm-nama').value;
             const p = document.getElementById('comm-pesan').value;
-            if(!n || !p) return alert("Isi nama & pesan!");
-
+            if(!n || !p) return alert("Lengkapi data!");
             const f = new FormData();
             f.append(ENTRY_NAMA, n); f.append(ENTRY_PESAN, p);
             f.append(ENTRY_MAPEL, state.mapel); f.append(ENTRY_KELAS, state.kelas); f.append(ENTRY_SEM, state.sem);
-
             try {
                 fetch(FORM_URL, { method: 'POST', body: f, mode: 'no-cors' });
                 alert("Terkirim!"); toggleComment();
